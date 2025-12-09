@@ -58,6 +58,7 @@ jobs:
             SANITY_READ_TOKEN=${{ secrets.SANITY_READ_TOKEN }}
             SANITY_STUDIO_PROJECT_ID=${{ secrets.SANITY_STUDIO_PROJECT_ID }}
             SANITY_STUDIO_DATASET=${{ secrets.SANITY_STUDIO_DATASET }}
+            SANITY_STUDIO_WEBHOOK_URL=${{ secrets.SANITY_STUDIO_WEBHOOK_URL }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/lusabaini-${{ matrix.app.name }}:latest
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/lusabaini-${{ matrix.app.name }}:${{ github.sha }}
