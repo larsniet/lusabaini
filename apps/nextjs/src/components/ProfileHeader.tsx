@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, type ComponentType } from "react";
 import { motion } from "motion/react";
 import { BadgeCheck, Instagram, Mail, Music2, Share } from "lucide-react";
 import Image from "next/image";
+import { sanityImageLoader } from "../lib/sanityImageLoader";
 
 type HeaderButton = {
   label: string;
@@ -122,6 +123,7 @@ export default function ProfileHeader({
             className="absolute inset-0"
           >
             <Image
+              loader={sanityImageLoader}
               src={image.url}
               alt={imageAlt}
               fill
