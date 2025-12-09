@@ -28,11 +28,14 @@ FROM base AS runner
 
 WORKDIR /app
 
-RUN pnpm add --global http-server@14.1.1
+# Use a static server with SPA fallback so /structure and other client routes work.
+RUN pnpm add --global serve@14.2.0
 
 COPY --from=builder /app/apps/studio-sanity/dist ./dist
 COPY --from=builder /app/apps/studio-sanity/package.json ./package.json
 
 EXPOSE 3333
 
-CMD ["http-server", "dist", "-p", "3333", "-a", "0.0.0.0", "-c", "-1"]
+# -s enables single-page app fallback to index.html
+# --cors is optional; helps when embedding from another origin.
+CMD ["serve", "-s", "dist", "-l", "3333", "--cors"]
