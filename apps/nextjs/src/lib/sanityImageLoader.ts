@@ -8,31 +8,33 @@ type LoaderProps = {
 
 const defaultProjectId =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "0hp0ah4w";
-const defaultDataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+const defaultDataset =
+  process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
-// Builds a Sanity CDN URL that Next.js <Image> can use server-side.
 export function sanityImageLoader({ src, width, quality }: LoaderProps) {
+  // ✅ LOCAL FILES: let Next.js handle them
+  if (src.startsWith("/") && !src.includes("cdn.sanity.io")) {
+    return src;
+  }
+
   let path = src;
 
-  // Accept full CDN URLs and reduce to the asset path portion.
+  // Accept full CDN URLs and reduce to asset path
   try {
     const parsed = new URL(src);
     if (parsed.hostname === "cdn.sanity.io") {
       path = parsed.pathname.replace(/^\/+/, "");
     }
   } catch {
-    // If src is already a path, keep it as-is.
+    // keep as-is
   }
 
-  // Normalize leading slashes.
   path = path.replace(/^\/+/, "");
 
-  // Strip "images/" prefix to avoid double "images".
   if (path.startsWith("images/")) {
     path = path.replace(/^images\//, "");
   }
 
-  // If the path already embeds projectId/dataset, remove them to avoid duplication.
   const prefix = `${defaultProjectId}/${defaultDataset}/`;
   if (path.startsWith(prefix)) {
     path = path.slice(prefix.length);

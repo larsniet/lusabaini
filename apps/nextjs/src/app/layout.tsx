@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 function clampChannel(value: number) {
   return Math.min(255, Math.max(0, value));
 }
@@ -50,11 +51,9 @@ export default async function RootLayout({
 }>) {
   const theme = await getThemeSettings();
 
-  const brandColor = theme?.brandColor?.trim() || "#ff7edb";
-  const brandSoft = shiftHexColor(brandColor, 28);
-  const brandStrong = shiftHexColor(brandColor, -35);
-  const fontFamily =
-    theme?.fontFamily?.trim() || "var(--font-geist-sans), sans-serif";
+  const brandColor = "#f9f3ebff";
+  const brandLight = shiftHexColor(brandColor, 28);
+  const brandDark = shiftHexColor(brandColor, -35);
 
   return (
     <html lang="en">
@@ -62,9 +61,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         style={{
           ["--brand-color" as string]: brandColor,
-          ["--brand-soft" as string]: brandSoft,
-          ["--brand-strong" as string]: brandStrong,
-          ["--font-app" as string]: fontFamily,
+          ["--brand-light" as string]: brandLight,
+          ["--brand-dark" as string]: brandDark,
         }}
       >
         <PwaRegister />
