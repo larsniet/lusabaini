@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@lusabaini/ui/components/badge";
 import { marked } from "marked";
 import type { LegalPageContent } from "@/lib/queries";
 
@@ -176,12 +176,10 @@ export default function LegalPageView({ page }: Props) {
         <div className="relative">
           <div className="max-w-3xl flex flex-col gap-10">
             <div className="flex flex-col items-start gap-8">
-              <Badge className="px-4 py-1 bg-black/5 rounded-lg text-xs font-semibold uppercase tracking-wider text-black/60 border-transparent">
-                {page.badgeLabel || "Legal"}
-              </Badge>
+              <Badge variant="eyebrow">{page.badgeLabel || "Legal"}</Badge>
 
               <div className="flex flex-col gap-4">
-                <h1 className="text-6xl sm:text-7xl lg:text-8xl font-medium tracking-[-0.04em] leading-[0.9] text-black">
+                <h1 className="heading-display text-foreground">
                   {page.headlineStart}{" "}
                   {page.headlineEmphasis ? (
                     <span className="italic font-serif">{page.headlineEmphasis}</span>
@@ -190,15 +188,13 @@ export default function LegalPageView({ page }: Props) {
                 </h1>
 
                 {lastUpdated ? (
-                  <p className="text-xl text-black/60 font-sans leading-relaxed">
+                  <p className="text-lead font-sans">
                     Last updated: {lastUpdated}
                   </p>
                 ) : null}
 
                 {page.description?.trim() ? (
-                  <p className="text-xl text-black/60 font-sans leading-relaxed">
-                    {page.description}
-                  </p>
+                  <p className="text-lead font-sans">{page.description}</p>
                 ) : null}
               </div>
             </div>
@@ -206,10 +202,10 @@ export default function LegalPageView({ page }: Props) {
             <div className="rounded-[2.5rem] border-4 border-white bg-white/70 p-4 sm:p-6 shadow-2xl">
               <div className="relative overflow-hidden">
                 <div
-                  className="text-base sm:text-lg text-black/70 font-sans leading-relaxed
-                    [&_h1]:text-3xl [&_h1]:sm:text-4xl [&_h1]:font-medium [&_h1]:tracking-[-0.03em] [&_h1]:text-black [&_h1]:mt-8 [&_h1]:mb-4
-                    [&_h2]:text-2xl [&_h2]:sm:text-3xl [&_h2]:font-medium [&_h2]:tracking-[-0.03em] [&_h2]:text-black [&_h2]:mt-8 [&_h2]:mb-3
-                    [&_h3]:text-xl [&_h3]:sm:text-2xl [&_h3]:font-medium [&_h3]:tracking-[-0.03em] [&_h3]:text-black [&_h3]:mt-7 [&_h3]:mb-3
+                  className="text-base sm:text-lg text-foreground/70 font-sans leading-relaxed
+                    [&_h1]:text-3xl [&_h1]:sm:text-4xl [&_h1]:font-medium [&_h1]:tracking-[-0.04em] [&_h1]:text-foreground [&_h1]:mt-8 [&_h1]:mb-4
+                    [&_h2]:text-2xl [&_h2]:sm:text-3xl [&_h2]:font-medium [&_h2]:tracking-[-0.04em] [&_h2]:text-foreground [&_h2]:mt-8 [&_h2]:mb-3
+                    [&_h3]:text-xl [&_h3]:sm:text-2xl [&_h3]:font-medium [&_h3]:tracking-[-0.04em] [&_h3]:text-foreground [&_h3]:mt-7 [&_h3]:mb-3
                     [&_p]:mb-4
                     [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ul]:mb-4
                     [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_ol]:mb-4

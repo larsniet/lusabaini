@@ -19,7 +19,7 @@ import {
   SiSpotify,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
-import { EASE_OUT, fadeInUpVariants } from "@/components/motion/fade";
+import { EASE_OUT, fadeInUpVariants } from "@lusabaini/ui/components/motion/fade";
 
 type LinktreeLink = {
   label: string;
@@ -85,14 +85,14 @@ export default function LinktreeLinks({ links, className }: LinktreeLinksProps) 
           const isInternal = isNextInternalUrl(link.url);
           const openInNewTab = isHttpUrl(link.url);
           const tileClassName =
-            "group relative flex w-full items-center justify-center gap-3 rounded-2xl border border-white/20 bg-white/80 px-6 py-4 text-center shadow-sm backdrop-blur-md transition-shadow hover:shadow-lg";
+            "group relative flex w-full items-center justify-center gap-3 rounded-3xl border border-white/20 bg-white/80 px-6 py-4 text-center shadow-sm backdrop-blur-md transition-shadow hover:shadow-lg";
           const tileStyle = {
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.06)",
           };
           const tileContent = (
             <>
-              <Icon className="absolute left-5 h-5 w-5 text-slate-600 transition-colors group-hover:text-slate-900" />
-              <span className="text-base font-semibold text-slate-800 transition-colors group-hover:text-slate-900">
+              <Icon className="absolute left-5 h-5 w-5 text-foreground/60 transition-colors group-hover:text-foreground" />
+              <span className="text-base font-medium text-foreground/80 transition-colors group-hover:text-foreground">
                 {link.label}
               </span>
             </>

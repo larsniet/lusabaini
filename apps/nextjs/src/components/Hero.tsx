@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@lusabaini/ui/components/button";
 import StoryMockup from "./StoryMockup";
 import { motion } from "motion/react";
-import { useRouteTransition } from "@/components/motion/RouteTransitionContext";
-import TransitionLink from "@/components/motion/TransitionLink";
-import { EASE_OUT } from "@/components/motion/fade";
+import { useRouteTransition } from "@lusabaini/ui/components/motion/RouteTransitionContext";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { EASE_OUT } from "@lusabaini/ui/components/motion/fade";
 
 type Props = {
   headlineStart?: string;
@@ -144,7 +144,7 @@ const Hero = ({
         variants={containerVariants}
       >
         <motion.h1
-          className="text-5xl lg:text-7xl font-medium tracking-[-0.04em] leading-[0.9] text-black"
+          className="heading-display text-foreground"
           variants={itemVariants}
         >
           {titleStart} <br />
@@ -153,7 +153,7 @@ const Hero = ({
         </motion.h1>
 
         <motion.p 
-          className="text-xl text-black/60 max-w-md font-sans leading-relaxed"
+          className="text-lead max-w-md font-sans"
           variants={itemVariants}
         >
           {body}
@@ -163,10 +163,10 @@ const Hero = ({
           className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
           variants={itemVariants}
         >
-          <Button asChild>
+          <Button asChild size="lg">
             <TransitionLink href="/contact">{primaryLabel}</TransitionLink>
           </Button>
-          <Button asChild variant="outline">
+          <Button asChild size="lg" variant="outline">
             <TransitionLink href={secondaryHref}>
               {secondaryLabel}
             </TransitionLink>

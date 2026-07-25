@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Button } from "@lusabaini/ui/components/button";
+import { Input } from "@lusabaini/ui/components/input";
+import { Textarea } from "@lusabaini/ui/components/textarea";
+import { Label } from "@lusabaini/ui/components/label";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -84,7 +84,7 @@ export default function ContactForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={className ?? "space-y-5"}>
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium text-black">
+        <Label htmlFor="name" className="text-sm font-medium text-foreground">
           Name
         </Label>
         <Input
@@ -94,11 +94,11 @@ export default function ContactForm({
           aria-invalid={!!errors.name}
           {...register("name")}
         />
-        {errors.name && <p className="text-xs text-red-600">{errors.name.message}</p>}
+        {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium text-black">
+        <Label htmlFor="email" className="text-sm font-medium text-foreground">
           Email
         </Label>
         <Input
@@ -109,11 +109,11 @@ export default function ContactForm({
           aria-invalid={!!errors.email}
           {...register("email")}
         />
-        {errors.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
+        {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message" className="text-sm font-medium text-black">
+        <Label htmlFor="message" className="text-sm font-medium text-foreground">
           Message
         </Label>
         <Textarea
@@ -125,7 +125,7 @@ export default function ContactForm({
           {...register("message")}
         />
         {errors.message && (
-          <p className="text-xs text-red-600">{errors.message.message}</p>
+          <p className="text-xs text-destructive">{errors.message.message}</p>
         )}
       </div>
 

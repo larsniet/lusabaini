@@ -13,8 +13,8 @@ import {
   Rocket,
   type LucideIcon,
 } from "lucide-react";
-import { EASE_OUT, FADE_IN_DELAY } from "@/components/motion/fade";
-import { useRouteTransition } from "@/components/motion/RouteTransitionContext";
+import { EASE_OUT, FADE_IN_DELAY } from "@lusabaini/ui/components/motion/fade";
+import { useRouteTransition } from "@lusabaini/ui/components/motion/RouteTransitionContext";
 import type { AboutValue } from "@/lib/queries";
 
 type Props = {
@@ -124,12 +124,10 @@ export default function AboutValues({
                 },
               })}
         >
-          <h2 className="text-4xl md:text-5xl font-medium tracking-[-0.04em] text-foreground mb-6">
+          <h2 className="heading-1 text-foreground mb-6">
             <span className="italic font-serif">{sectionTitle}</span>
           </h2>
-          <p className="text-lg md:text-xl text-foreground/60 leading-relaxed">
-            {sectionContent}
-          </p>
+          <p className="text-lead">{sectionContent}</p>
         </motion.div>
 
         {/* Values Grid */}
@@ -149,7 +147,7 @@ export default function AboutValues({
             return (
               <motion.div
                 key={value._key || index}
-                className="group relative rounded-[2rem] p-7 md:p-8 flex flex-col gap-5 bg-[oklch(1_0_0/0.58)] md:backdrop-blur-lg ring-1 ring-foreground/10 shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-[background-color,box-shadow] duration-300 hover:bg-[oklch(1_0_0/0.7)] hover:shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:hover:-translate-y-1"
+                className="group relative rounded-3xl p-7 md:p-8 flex flex-col gap-5 bg-white/60 md:backdrop-blur-lg ring-1 ring-foreground/10 shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-[background-color,box-shadow] duration-300 hover:bg-white/70 hover:shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:hover:-translate-y-1"
                 style={isTouchDevice ? { WebkitTransform: "translateZ(0)" } : undefined}
                 {...(shouldDisableCardAnimations
                   ? { initial: false }
@@ -164,13 +162,9 @@ export default function AboutValues({
 
                 {/* Content */}
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold tracking-tight text-foreground">
-                    {value.title}
-                  </h3>
+                  <h3 className="heading-3 text-foreground">{value.title}</h3>
                   {value.description ? (
-                    <p className="text-base text-foreground/60 leading-relaxed">
-                      {value.description}
-                    </p>
+                    <p className="text-body">{value.description}</p>
                   ) : null}
                 </div>
               </motion.div>

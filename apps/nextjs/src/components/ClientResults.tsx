@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@lusabaini/ui/components/badge";
 import type { ClientResult, ClientResultStat } from "@/lib/queries";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { Stagger, StaggerItem } from "@lusabaini/ui/components/motion/Stagger";
 import { motion } from "motion/react";
-import { EASE_OUT } from "@/components/motion/fade";
-import TransitionLink from "@/components/motion/TransitionLink";
-import { createSlug } from "@/lib/utils";
+import { EASE_OUT } from "@lusabaini/ui/components/motion/fade";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { createSlug } from "@lusabaini/ui/lib/utils";
 
 type Props = {
   results?: ClientResult[];
@@ -70,7 +70,7 @@ export default function ClientResults({ results }: Props) {
   const displayItems = items.slice(0, 3);
 
   return (
-    <section className="w-full py-24">
+    <section className="w-full py-20 md:py-28">
       <div className="max-w-6xl mx-auto px-6 flex flex-col gap-20">
         {displayItems.map((result, index) => {
           const isEven = index % 2 === 0;
@@ -82,13 +82,13 @@ export default function ClientResults({ results }: Props) {
           const TextContent = (
             <div className="flex flex-col items-start gap-8">
               <StaggerItem>
-                <Badge className="px-4 py-1 bg-black/5 rounded-lg text-xs font-semibold uppercase tracking-wider text-black/60 border-transparent">
+                <Badge variant="eyebrow">
                   {result.badgeLabel || "Client results"}
                 </Badge>
               </StaggerItem>
 
               <StaggerItem y={24}>
-                <h2 className="text-5xl lg:text-6xl font-medium tracking-[-0.04em] leading-[0.9] text-black">
+                <h2 className="heading-1 text-foreground">
                   {result.headlineStart}{" "}
                   <span className="italic font-serif">
                     {result.headlineEmphasis}
@@ -99,7 +99,7 @@ export default function ClientResults({ results }: Props) {
 
               {result.description ? (
                 <StaggerItem y={20}>
-                  <p className="text-xl text-black/60 max-w-xl font-sans leading-relaxed">
+                  <p className="text-lead max-w-xl font-sans">
                     {result.description}
                   </p>
                 </StaggerItem>
@@ -118,15 +118,15 @@ export default function ClientResults({ results }: Props) {
                         key={stat._key ?? `${stat.label}-${stat.value}`}
                         y={16}
                       >
-                        <div className="text-6xl lg:text-6xl font-medium tracking-[-0.04em] text-black">
+                        <div className="heading-1 text-foreground">
                           {stat.value}
                         </div>
                         <div className="pt-3">
-                          <div className="text-2xl font-medium tracking-[-0.04em] text-black">
+                          <div className="text-2xl font-medium tracking-[-0.04em] text-foreground">
                             {stat.label}
                           </div>
                           {stat.subLabel ? (
-                            <div className="text-base text-black/50 font-sans mt-1">
+                            <div className="text-body font-sans mt-1">
                               {stat.subLabel}
                             </div>
                           ) : null}
@@ -207,7 +207,7 @@ export default function ClientResults({ results }: Props) {
               <TransitionLink
                 href={href}
                 aria-label={linkLabel}
-                className="block rounded-[2.75rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:ring-offset-4 focus-visible:ring-offset-pink-100"
+                className="block rounded-[2.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
               >
                 <Stagger
                   className={`grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center ${

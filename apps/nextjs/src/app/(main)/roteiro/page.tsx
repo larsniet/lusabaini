@@ -18,14 +18,14 @@ export default function RoteiroPage() {
       <div className="mx-auto max-w-3xl px-6">
         <div className="rounded-[2.5rem] border-4 border-white bg-white/70 p-6 shadow-2xl sm:p-8">
           <div className="mb-10 space-y-4">
-            <h1 className="text-4xl font-medium tracking-[-0.04em] leading-[0.95] text-black sm:text-5xl">
+            <h1 className="heading-1 text-foreground">
               Roteiro Personalizado
             </h1>
-            <p className="text-lg leading-relaxed text-black/65">
+            <p className="text-lead">
               Preencha o formulário abaixo para que possamos montar o roteiro
               perfeito para a sua viagem à Holanda. Quanto mais detalhes, melhor!
             </p>
-            <p className="text-sm text-black/50">
+            <p className="text-sm text-foreground/50">
               Campos com * são obrigatórios. Após o envio, entraremos em contato
               para finalizar os detalhes.
             </p>

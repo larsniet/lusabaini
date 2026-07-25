@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { useTransitionNavigation } from "@/components/motion/TransitionContext";
+import { Button } from "@lusabaini/ui/components/button";
+import { useTransitionNavigation } from "@lusabaini/ui/components/motion/TransitionContext";
 
 type Props = {
   className?: string;
@@ -22,13 +23,15 @@ export default function BackButton({ className, fallbackHref = "/my-work" }: Pro
   };
 
   return (
-    <button
+    <Button
       onClick={handleBack}
-      className={className}
       type="button"
+      variant="outline"
+      size="sm"
+      className={className}
     >
-      <ArrowLeft className="inline-block mr-2 h-4 w-4" />
+      <ArrowLeft />
       Back
-    </button>
+    </Button>
   );
 }

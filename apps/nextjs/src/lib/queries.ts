@@ -1,5 +1,5 @@
 import { cachedSanityFetch } from "./sanity";
-import { createSlug } from "./utils";
+import { createSlug } from "@lusabaini/ui/lib/utils";
 
 type ProfileImage = {
   url: string;

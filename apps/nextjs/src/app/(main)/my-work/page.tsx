@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Reveal from "@/components/motion/Reveal";
-import { Badge } from "@/components/ui/badge";
+import Reveal from "@lusabaini/ui/components/motion/Reveal";
+import { Badge } from "@lusabaini/ui/components/badge";
 import {
   getClientResults,
   getMyWorkPageContent,
   resolveClientResultSlug,
 } from "@/lib/queries";
-import TransitionLink from "@/components/motion/TransitionLink";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
 import JsonLd from "@/components/seo/JsonLd";
 import { buildCanonicalUrl, buildPageMetadata } from "@/lib/seo";
 
@@ -72,15 +72,13 @@ export default async function CaseStudiesPage() {
           <div className="max-w-3xl flex flex-col gap-7">
             {pageContent?.badgeLabel && (
               <Reveal>
-                <Badge className="w-fit px-4 py-1 bg-black/5 rounded-lg text-xs font-semibold uppercase tracking-wider text-black/60 border-transparent">
-                  {pageContent.badgeLabel}
-                </Badge>
+                <Badge variant="eyebrow">{pageContent.badgeLabel}</Badge>
               </Reveal>
             )}
 
             {pageContent?.headline && (
               <Reveal>
-                <h1 className="text-5xl lg:text-7xl font-medium tracking-[-0.04em] leading-[0.9] text-black">
+                <h1 className="heading-display text-foreground">
                   {pageContent.headline}
                 </h1>
               </Reveal>
@@ -88,7 +86,7 @@ export default async function CaseStudiesPage() {
 
             {pageContent?.description && (
               <Reveal>
-                <p className="text-xl text-black/60 max-w-2xl font-sans leading-relaxed">
+                <p className="text-lead max-w-2xl font-sans">
                   {pageContent.description}
                 </p>
               </Reveal>
@@ -138,12 +136,10 @@ export default async function CaseStudiesPage() {
                         </div>
                       </div>
 
-                      <div className="mt-4 bg-black/5 border border-black/10 rounded-2xl px-5 sm:px-6 py-4 flex items-center justify-between">
-                        <div className="text-lg sm:text-xl font-medium tracking-[-0.04em] text-black">
-                          {title}
-                        </div>
+                      <div className="mt-4 bg-black/5 border border-black/10 rounded-3xl px-5 sm:px-6 py-4 flex items-center justify-between">
+                        <div className="heading-3 text-foreground">{title}</div>
                         {category ? (
-                          <div className="text-sm font-medium text-black/50">
+                          <div className="text-sm font-medium text-foreground/50">
                             {category}
                           </div>
                         ) : null}

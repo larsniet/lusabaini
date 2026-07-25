@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import PwaRegister from "@/components/PwaRegister";
-import LenisScroll from "@/components/motion/LenisScroll";
+import LenisScroll from "@lusabaini/ui/components/motion/LenisScroll";
+import {
+  brandCssVariables,
+  DEFAULT_BRAND_COLOR,
+} from "@lusabaini/ui/lib/brand";
 import { Providers } from "@/components/Providers";
 import { getThemeSettings } from "@/lib/queries";
 import ConsentManagedAnalytics from "@/components/ConsentManagedAnalytics";
@@ -25,6 +29,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   preload: false, // Not used on initial render, prevents preload warning
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-serif-accent",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -74,46 +86,18 @@ export const viewport: Viewport = {
   themeColor: "transparent",
 };
 
-function clampChannel(value: number) {
-  return Math.min(255, Math.max(0, value));
-}
-
-function shiftHexColor(hex: string, shift: number) {
-  const match = /^#?([a-fA-F0-9]{6})([a-fA-F0-9]{2})?$/.exec(hex.trim());
-  if (!match) return hex;
-  const num = parseInt(match[1], 16);
-  const r = clampChannel((num >> 16) + shift);
-  const g = clampChannel(((num >> 8) & 0xff) + shift);
-  const b = clampChannel((num & 0xff) + shift);
-  const alpha = match[2]?.toLowerCase() ?? "";
-  return `#${[r, g, b]
-    .map((c) => c.toString(16).padStart(2, "0"))
-    .join("")}${alpha}`;
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const theme = await getThemeSettings();
-  const brandColor = theme?.brandColor || "#f9f3eb";
-  const brandLight = shiftHexColor(brandColor, 28);
-  const brandDark = shiftHexColor(brandColor, -35);
-  const brandSoft = shiftHexColor(brandColor, 55);
+  const brandColor = theme?.brandColor || DEFAULT_BRAND_COLOR;
 
   return (
-    <html
-      lang="en"
-      style={{
-        ["--brand-color" as string]: brandColor,
-        ["--brand-light" as string]: brandLight,
-        ["--brand-dark" as string]: brandDark,
-        ["--brand-soft" as string]: brandSoft,
-      }}
-    >
+    <html lang="en" style={brandCssVariables(brandColor)}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
       >
         <PwaRegister />
         <LenisScroll />

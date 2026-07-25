@@ -3,8 +3,8 @@
 import * as React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { EASE_OUT, FADE_IN_DELAY } from "@/components/motion/fade";
-import { useRouteTransition } from "@/components/motion/RouteTransitionContext";
+import { EASE_OUT, FADE_IN_DELAY } from "@lusabaini/ui/components/motion/fade";
+import { useRouteTransition } from "@lusabaini/ui/components/motion/RouteTransitionContext";
 
 type Props = {
   title?: string;
@@ -51,8 +51,8 @@ export default function AboutStory({ title, content, image }: Props) {
                   })}
             >
               <div className="relative w-[300px] h-[380px] lg:w-[360px] lg:h-[440px]">
-                <div className="absolute inset-0 rounded-[2rem] bg-linear-to-br from-(--brand-color) to-(--brand-dark) opacity-15 blur-xl -rotate-3" />
-                <div className="relative w-full h-full rounded-[2rem] overflow-hidden border-4 border-white shadow-xl rotate-2 md:hover:rotate-0 transition-transform duration-500">
+                <div className="absolute inset-0 rounded-[2.5rem] bg-linear-to-br from-(--brand-color) to-(--brand-dark) opacity-15 blur-xl -rotate-3" />
+                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-4 border-white shadow-xl rotate-2 md:hover:rotate-0 transition-transform duration-500">
                   <Image
                     src={imageUrl}
                     alt={imageAlt}
@@ -83,14 +83,10 @@ export default function AboutStory({ title, content, image }: Props) {
           >
             <div className="inline-flex items-center gap-3 mb-2">
               <div className="h-px w-10 bg-foreground/20" />
-              <span className="text-sm font-semibold uppercase tracking-widest text-foreground/50">
-                {sectionTitle}
-              </span>
+              <span className="text-eyebrow">{sectionTitle}</span>
             </div>
 
-            <p className="text-xl md:text-2xl text-foreground/80 leading-relaxed font-sans">
-              {sectionContent}
-            </p>
+            <p className="text-lead font-sans">{sectionContent}</p>
 
             {/* Decorative quote mark */}
             <div className="mt-4">

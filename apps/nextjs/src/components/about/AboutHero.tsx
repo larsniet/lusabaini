@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@lusabaini/ui/components/badge";
 import { motion } from "motion/react";
-import { useRouteTransition } from "@/components/motion/RouteTransitionContext";
-import { FADE_IN_DELAY, fadeInUpVariants } from "@/components/motion/fade";
+import { useRouteTransition } from "@lusabaini/ui/components/motion/RouteTransitionContext";
+import { FADE_IN_DELAY, fadeInUpVariants } from "@lusabaini/ui/components/motion/fade";
 
 type Props = {
   badgeLabel?: string;
@@ -68,19 +68,17 @@ export default function AboutHero({
             animate={shouldDisableMountAnimation ? undefined : "show"}
             variants={fadeInUpVariants({ y: 20, duration: 0.62, delay: FADE_IN_DELAY })}
           >
-            <Badge className="w-fit px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-foreground/5 text-foreground/70 ring-1 ring-foreground/10 backdrop-blur">
+            <Badge variant="eyebrow" className="backdrop-blur">
               {badge}
             </Badge>
 
-            <h1 className="text-5xl lg:text-7xl font-medium tracking-[-0.04em] leading-[0.9] text-black">
+            <h1 className="heading-display text-foreground">
               {titleStart}{" "}
               <span className="italic font-serif">{titleEmphasis}</span>
               {titleEnd ? ` ${titleEnd}` : ""}
             </h1>
 
-            <p className="text-xl text-black/60 max-w-xl font-sans leading-relaxed">
-              {body}
-            </p>
+            <p className="text-lead max-w-xl font-sans">{body}</p>
           </motion.div>
 
           {/* Profile Image */}

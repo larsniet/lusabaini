@@ -16,6 +16,9 @@ out
 apps/nextjs/.next
 apps/nextjs/.vercel
 apps/nextjs/out
+apps/consultancy/.next
+apps/consultancy/.vercel
+apps/consultancy/out
 
 # sanity
 apps/studio-sanity/.sanity

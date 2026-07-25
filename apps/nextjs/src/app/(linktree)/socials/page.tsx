@@ -17,7 +17,7 @@ export default async function SocialsPage() {
       {/* Name with verified badge */}
       {content?.name && (
         <div className="mt-4 flex items-center gap-1.5">
-          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
+          <h1 className="heading-3 text-foreground sm:text-2xl">
             {content.name}
           </h1>
         </div>
@@ -25,12 +25,12 @@ export default async function SocialsPage() {
 
       {/* Bio */}
       {content?.bio && (
-        <p className="mt-1.5 max-w-xs text-center text-sm text-slate-700/80 sm:text-base">
+        <p className="mt-1.5 max-w-xs text-center text-sm text-foreground/70 sm:text-base">
           {content.bio}
         </p>
       )}
 
-      <p className="mt-3 max-w-xs text-center text-xs text-slate-700/70 sm:text-sm">
+      <p className="mt-3 max-w-xs text-center text-xs text-foreground/60 sm:text-sm">
         {content?.introText ||
           "A focused links page with my current social channels, featured work, and direct contact paths."}
       </p>
@@ -47,7 +47,7 @@ export default async function SocialsPage() {
           href={siteUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto pt-16 text-xs text-slate-500/60 transition-opacity hover:opacity-100"
+          className="mt-auto pt-16 text-xs text-foreground/50 transition-opacity hover:opacity-100"
         >
           {siteHost}
         </a>

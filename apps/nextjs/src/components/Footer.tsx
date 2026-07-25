@@ -1,10 +1,9 @@
 "use client";
 
 import type { FooterLink, NavLink, SocialLink } from "@/lib/queries";
-import TransitionLink from "@/components/motion/TransitionLink";
-import { Button } from "@/components/ui/button";
-import { SocialIcon } from "@/components/SocialLinks";
-import { buildMailtoUrl } from "@/lib/utils";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { Button } from "@lusabaini/ui/components/button";
+import SocialLinks from "@/components/SocialLinks";
 
 type Props = {
   brandLabel?: string;
@@ -115,70 +114,45 @@ export default function Footer({
             <div className="flex flex-col gap-5 max-w-xl">
               <TransitionLink
                 href="/"
-                className="text-lg font-medium tracking-[-0.05em] text-black hover:opacity-70 transition-opacity font-sans"
+                className="text-lg font-medium tracking-[-0.05em] text-foreground hover:opacity-70 transition-opacity font-sans"
               >
                 {brandLabel || "lu sabaini"}
               </TransitionLink>
 
               <div className="flex flex-col gap-3">
-                <h2 className="text-[34px] md:text-[40px] leading-[1.08] font-medium tracking-[-0.04em] text-black">
+                <h2 className="heading-2 text-foreground">
                   {titleStart}{" "}
                   <span className="italic font-serif">{titleEmphasis}</span>
                   {formattedTitleEnd}
                 </h2>
-                <p className="text-base md:text-lg text-black/60 font-sans leading-relaxed max-w-lg">
-                  {body}
-                </p>
+                <p className="text-body font-sans max-w-lg">{body}</p>
               </div>
             </div>
 
             {/* Actions */}
             <div className="flex flex-col gap-8 lg:items-end">
-              <Button asChild>
+              <Button asChild size="lg">
                 <TransitionLink href="/contact">{ctaLabel}</TransitionLink>
               </Button>
 
-              <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium tracking-tight text-black/70">
+              <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium tracking-tight text-foreground/70">
                 {navLinks.map((l, i) => (
                   <FooterNavLink
                     key={`${l.href}-${i}`}
                     href={l.href}
-                    className="hover:text-black transition-colors"
+                    className="hover:text-foreground transition-colors"
                   >
                     {l.label}
                   </FooterNavLink>
                 ))}
               </nav>
 
-              {socialData.length ? (
-                <div className="flex items-center gap-3">
-                  {socialData.map((s, idx) => {
-                    // Enhance mailto links with subject and body if provided
-                    const href =
-                      s.icon === "email"
-                        ? buildMailtoUrl(s.href, s.emailSubject, s.emailBody)
-                        : s.href;
-
-                    return (
-                      <a
-                        key={`${s.icon}-${idx}`}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={s.label || s.icon}
-                        className="w-10 h-10 rounded-full border border-black/10 bg-white/40 backdrop-blur-md flex items-center justify-center text-black hover:bg-white/70 transition-colors"
-                      >
-                        <SocialIcon icon={s.icon} />
-                      </a>
-                    );
-                  })}
-                </div>
-              ) : null}
+              {socialData.length ? <SocialLinks socials={socialData} /> : null}
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-10 pt-6 border-t border-black/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs font-medium tracking-tight text-black/40">
+          <div className="mt-10 pt-6 border-t border-black/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs font-medium tracking-tight text-foreground/40">
             <p>
               © {currentYear} {brandLabel || "lu sabaini"}
             </p>
@@ -188,7 +162,7 @@ export default function Footer({
                   <FooterNavLink
                     key={`${l.href}-${i}`}
                     href={l.href}
-                    className="hover:text-black/70 transition-colors"
+                    className="hover:text-foreground/70 transition-colors"
                   >
                     {l.label}
                   </FooterNavLink>

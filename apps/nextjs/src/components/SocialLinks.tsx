@@ -1,16 +1,11 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import {
-  SiInstagram,
-  SiLinkedin,
-  SiTiktok,
-  SiYoutube,
-  SiFacebook,
-  SiX,
-} from "react-icons/si";
+import { SiInstagram, SiTiktok, SiYoutube, SiFacebook, SiX } from "react-icons/si";
+import { SiLinkedin } from "@/components/icons/SiLinkedin";
 import type { SocialLink } from "@/lib/queries";
-import { buildMailtoUrl } from "@/lib/utils";
+import { Button } from "@lusabaini/ui/components/button";
+import { buildMailtoUrl } from "@lusabaini/ui/lib/utils";
 
 type Props = {
   socials?: SocialLink[];
@@ -20,21 +15,21 @@ type Props = {
 };
 
 function SocialIcon({ icon }: { icon: SocialLink["icon"] }) {
-  if (icon === "instagram") return <SiInstagram className="w-5 h-5" />;
-  if (icon === "linkedin") return <SiLinkedin className="w-5 h-5" />;
-  if (icon === "email") return <Mail className="w-5 h-5" />;
-  if (icon === "tiktok") return <SiTiktok className="w-5 h-5" />;
-  if (icon === "youtube") return <SiYoutube className="w-5 h-5" />;
-  if (icon === "facebook") return <SiFacebook className="w-5 h-5" />;
-  if (icon === "x") return <SiX className="w-5 h-5" />;
+  if (icon === "instagram") return <SiInstagram className="size-5" />;
+  if (icon === "linkedin") return <SiLinkedin className="size-5" />;
+  if (icon === "email") return <Mail className="size-5" />;
+  if (icon === "tiktok") return <SiTiktok className="size-5" />;
+  if (icon === "youtube") return <SiYoutube className="size-5" />;
+  if (icon === "facebook") return <SiFacebook className="size-5" />;
+  if (icon === "x") return <SiX className="size-5" />;
   // Fallback (should not happen with proper types)
-  return <Mail className="w-5 h-5" />;
+  return <Mail className="size-5" />;
 }
 
 export default function SocialLinks({
   socials,
   className = "",
-  buttonClassName = "w-10 h-10 rounded-full border border-black/10 bg-white/40 backdrop-blur-md flex items-center justify-center text-black hover:bg-white/70 transition-colors",
+  buttonClassName = "border-foreground/10 bg-white/40 backdrop-blur-md hover:bg-white/70",
 }: Props) {
   const socialData = (socials ?? [])
     .filter((s) => (s?.href ?? "").trim() && (s.href ?? "").trim() !== "#")
@@ -52,16 +47,22 @@ export default function SocialLinks({
             : s.href;
 
         return (
-          <a
+          <Button
             key={`${s.icon}-${idx}`}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={s.label || s.icon}
+            asChild
+            variant="outline"
+            size="icon-lg"
             className={buttonClassName}
           >
-            <SocialIcon icon={s.icon} />
-          </a>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label || s.icon}
+            >
+              <SocialIcon icon={s.icon} />
+            </a>
+          </Button>
         );
       })}
     </div>

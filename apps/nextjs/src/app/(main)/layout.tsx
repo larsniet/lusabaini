@@ -1,10 +1,10 @@
-import PageTransition from "@/components/motion/PageTransition";
-import TransitionShell from "@/components/motion/TransitionShell";
+import PageTransition from "@lusabaini/ui/components/motion/PageTransition";
+import TransitionShell from "@lusabaini/ui/components/motion/TransitionShell";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
 import { getShellContent } from "@/lib/queries";
-import { TransitionProvider } from "@/components/motion/TransitionContext";
+import { TransitionProvider } from "@lusabaini/ui/components/motion/TransitionContext";
 
 export default async function MainLayout({
   children,

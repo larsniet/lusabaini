@@ -15,8 +15,11 @@ export default defineCliConfig({
     /**
      * Add an appId from https://www.sanity.io/manage/project/<projectId>/studios
      * to pin updates and avoid the warning. When missing, CLI will auto-update.
+     *
+     * Disabled: with autoUpdates enabled the CLI kept rewriting package.json
+     * (e.g. bumping sanity to new majors) during dev/build/deploy.
      */
-    autoUpdates: true,
+    autoUpdates: false,
     ...(appId ? {appId} : {}),
   },
 })

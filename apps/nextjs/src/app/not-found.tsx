@@ -1,7 +1,7 @@
 import Image from "next/image";
-import TransitionLink from "@/components/motion/TransitionLink";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { Button } from "@lusabaini/ui/components/button";
+import { Badge } from "@lusabaini/ui/components/badge";
 import { getNotFoundPageContent } from "@/lib/queries";
 import { sanityImageLoader } from "@/lib/sanityImageLoader";
 
@@ -36,19 +36,15 @@ export default async function NotFound() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           {/* Copy */}
           <div className="flex flex-col items-start gap-8">
-            <Badge className="px-4 py-1 bg-black/5 rounded-lg text-xs font-semibold uppercase tracking-wider text-black/60 border-transparent">
-              {badgeLabel}
-            </Badge>
+            <Badge variant="eyebrow">{badgeLabel}</Badge>
 
             <div className="flex flex-col gap-4">
-              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-medium tracking-[-0.04em] leading-[0.9] text-black">
+              <h1 className="heading-display text-foreground">
                 {headlineStart}{" "}
                 <span className="italic font-serif">{headlineEmphasis}</span>
                 {headlineEnd ? ` ${headlineEnd}` : ""}
               </h1>
-              <p className="text-xl text-black/60 max-w-xl font-sans leading-relaxed">
-                {description}
-              </p>
+              <p className="text-lead max-w-xl font-sans">{description}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -68,7 +64,7 @@ export default async function NotFound() {
           {/* Visual */}
           <div className="relative">
             <div className="glass-card rounded-[2.5rem] p-4 sm:p-6 border border-black/10">
-              <div className="relative overflow-hidden rounded-[2rem] aspect-16/10 bg-black/5">
+              <div className="relative overflow-hidden rounded-3xl aspect-16/10 bg-black/5">
                 <div className="absolute inset-0 bg-linear-to-br from-black/5 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex flex-col items-center gap-4">
@@ -84,10 +80,10 @@ export default async function NotFound() {
                       />
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-medium tracking-[-0.06em] text-black">
+                      <div className="text-4xl font-medium tracking-[-0.04em] text-foreground">
                         {errorNumber}
                       </div>
-                      <div className="text-sm text-black/50 font-sans">
+                      <div className="text-sm text-foreground/50 font-sans">
                         {errorSubtitle}
                       </div>
                     </div>

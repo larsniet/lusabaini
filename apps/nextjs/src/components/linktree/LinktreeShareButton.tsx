@@ -2,13 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Share, Link as LinkIcon, Mail, Upload } from "lucide-react";
-import {
-  SiX,
-  SiFacebook,
-  SiWhatsapp,
-  SiLinkedin,
-  SiMessenger,
-} from "react-icons/si";
+import { SiX, SiFacebook, SiWhatsapp, SiMessenger } from "react-icons/si";
+import { SiLinkedin } from "@/components/icons/SiLinkedin";
 
 const SnapchatIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className}>
@@ -32,7 +27,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+} from "@lusabaini/ui/components/drawer";
 
 type LinktreeShareButtonProps = {
   name?: string;
@@ -116,7 +111,7 @@ export default function LinktreeShareButton({
       label: copied ? "Copied!" : "Copy Link",
       icon: LinkIcon,
       onClick: handleCopyLink,
-      color: "bg-slate-200 text-slate-700",
+      color: "bg-muted text-foreground/70",
     },
     {
       label: "X",
@@ -165,19 +160,19 @@ export default function LinktreeShareButton({
       label: "Email",
       icon: Mail,
       onClick: handleEmailShare,
-      color: "bg-slate-500 text-white",
+      color: "bg-foreground text-background",
     },
     {
       label: "More",
       icon: Upload,
       onClick: handleNativeShare,
-      color: "bg-slate-300 text-slate-700",
+      color: "bg-muted text-foreground/70",
       hidden: !canNativeShare,
     },
   ];
 
   const buttonClasses =
-    "absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:shadow-md sm:right-6 sm:top-6 sm:h-12 sm:w-12";
+    "absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-foreground/70 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:shadow-md sm:right-6 sm:top-6 sm:h-12 sm:w-12";
 
   // Render static button during SSR to avoid hydration mismatch with Radix IDs
   if (!mounted) {
@@ -205,7 +200,7 @@ export default function LinktreeShareButton({
         </DrawerHeader>
 
         {/* Preview Card */}
-        <div className="mx-6 mb-6 overflow-hidden rounded-2xl bg-slate-800 p-6">
+        <div className="mx-6 mb-6 overflow-hidden rounded-3xl bg-foreground p-6">
           <div className="flex flex-col items-center">
             {profileImage?.url && (
               <div className="relative mb-3 h-16 w-16 overflow-hidden rounded-full ring-2 ring-white/20">
@@ -219,8 +214,8 @@ export default function LinktreeShareButton({
                 />
               </div>
             )}
-            {name && <p className="text-lg font-semibold text-white">{name}</p>}
-            {username && <p className="text-sm text-white/60">@{username}</p>}
+            {name && <p className="text-lg font-semibold text-background">{name}</p>}
+            {username && <p className="text-sm text-background/60">@{username}</p>}
           </div>
         </div>
 
@@ -244,7 +239,7 @@ export default function LinktreeShareButton({
                     >
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="w-16 truncate text-center text-xs text-slate-600">
+                    <span className="w-16 truncate text-center text-xs text-foreground/60">
                       {option.label}
                     </span>
                   </button>

@@ -12,7 +12,9 @@ FROM base AS deps
 
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json turbo.json ./
 COPY apps/nextjs/package.json ./apps/nextjs/package.json
+COPY apps/consultancy/package.json ./apps/consultancy/package.json
 COPY apps/studio-sanity/package.json ./apps/studio-sanity/package.json
+COPY packages/ui/package.json ./packages/ui/package.json
 
 RUN pnpm install --frozen-lockfile
 
@@ -39,6 +41,7 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/nextjs/node_modules ./apps/nextjs/node_modules
+COPY --from=deps /app/packages/ui ./packages/ui
 COPY --from=builder /app/apps/nextjs/.next ./apps/nextjs/.next
 COPY --from=builder /app/apps/nextjs/public ./apps/nextjs/public
 COPY --from=builder /app/apps/nextjs/package.json ./apps/nextjs/package.json

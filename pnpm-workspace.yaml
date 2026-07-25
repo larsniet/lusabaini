@@ -1,5 +1,11 @@
 packages:
   - apps/*
+  - packages/*
+
+# Disable pnpm's default 24h "minimumReleaseAge" supply-chain check.
+# It re-verifies every lockfile entry's publish date on each fresh install,
+# which breaks installs whenever a pinned package was published <24h ago.
+minimumReleaseAge: 0
 
 onlyBuiltDependencies:
   - '@swc/core'

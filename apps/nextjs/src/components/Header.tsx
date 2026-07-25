@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "@lusabaini/ui/lib/utils";
+import { Button } from "@lusabaini/ui/components/button";
 import Logo from "@/components/Logo";
-import TransitionLink from "@/components/motion/TransitionLink";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
 
 type NavLink = { href: string; label: string };
 
@@ -46,7 +46,7 @@ const Header = ({ navLinks, cta }: Props) => {
               <TransitionLink
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium tracking-[-0.04em] text-black hover:opacity-60 transition-opacity font-sans"
+                className="text-sm font-medium tracking-[-0.04em] text-foreground hover:opacity-60 transition-opacity font-sans"
               >
                 {link.label}
               </TransitionLink>
@@ -66,13 +66,13 @@ const Header = ({ navLinks, cta }: Props) => {
             >
               <div
                 className={cn(
-                  "h-[2px] w-[20px] rounded-full bg-black transition-all duration-300",
+                  "h-[2px] w-[20px] rounded-full bg-foreground transition-all duration-300",
                   isMenuOpen && "translate-y-[3px] rotate-45"
                 )}
               />
               <div
                 className={cn(
-                  "h-[2px] w-[20px] rounded-full bg-black transition-all duration-300",
+                  "h-[2px] w-[20px] rounded-full bg-foreground transition-all duration-300",
                   isMenuOpen && "-translate-y-[3px] -rotate-45"
                 )}
               />
@@ -100,7 +100,7 @@ const Header = ({ navLinks, cta }: Props) => {
               key={link.href}
               href={link.href}
               onClick={() => setIsMenuOpen(false)}
-              className="text-[32px] font-medium tracking-[-0.04em] text-black hover:opacity-60 transition-opacity font-sans"
+              className="text-3xl font-medium tracking-[-0.04em] text-foreground hover:opacity-60 transition-opacity font-sans"
             >
               {link.label}
             </TransitionLink>

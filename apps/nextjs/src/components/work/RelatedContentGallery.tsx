@@ -17,7 +17,12 @@ import {
   X,
 } from "lucide-react";
 import type { RelatedContentItem } from "@/lib/queries";
-import { cn } from "@/lib/utils";
+import { Button } from "@lusabaini/ui/components/button";
+import { cn } from "@lusabaini/ui/lib/utils";
+
+// Shared styling for icon controls that sit on top of media/lightbox surfaces.
+const overlayControlClass =
+  "border border-white/25 bg-black/55 text-white hover:bg-black/75 hover:text-white";
 
 type Props = {
   title?: string;
@@ -272,28 +277,32 @@ function CustomVideoPlayer({
       <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-90 transition-opacity group-hover/player:opacity-100" />
 
       {onRequestExpand ? (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={onRequestExpand}
-          className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white transition-colors hover:bg-black/75"
+          className={cn("absolute right-3 top-3", overlayControlClass)}
           aria-label="Open video in fullscreen view"
         >
-          <Maximize2 className="h-4 w-4" />
-        </button>
+          <Maximize2 />
+        </Button>
       ) : null}
 
       <div
         className="absolute inset-x-0 bottom-0 z-10 flex items-center gap-2 px-2.5 pt-2.5 sm:gap-3 sm:px-3 sm:pt-3"
         style={{ paddingBottom: "max(0.625rem, env(safe-area-inset-bottom))" }}
       >
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={togglePlayback}
-          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/60 text-white transition-colors hover:bg-black/75"
+          className={cn("shrink-0", overlayControlClass)}
           aria-label={isPlaying ? "Pause video" : "Play video"}
         >
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        </button>
+          {isPlaying ? <Pause /> : <Play />}
+        </Button>
 
         <div className="min-w-0 flex flex-1 items-center gap-2 sm:gap-3">
           <input
@@ -312,14 +321,16 @@ function CustomVideoPlayer({
           </div>
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={toggleMute}
-          className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/60 text-white transition-colors hover:bg-black/75"
+          className={cn("shrink-0", overlayControlClass)}
           aria-label={isMuted ? "Unmute video" : "Mute video"}
         >
-          {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </button>
+          {isMuted ? <VolumeX /> : <Volume2 />}
+        </Button>
       </div>
     </div>
   );
@@ -361,6 +372,16 @@ export default function RelatedContentGallery({
     [filteredItems]
   );
   const [activeMediaIndex, setActiveMediaIndex] = React.useState<number | null>(null);
+  // Clamp the active index during render (instead of an effect) when the media list
+  // shrinks, e.g. after a filter change, following React's "adjust state on prop/derived
+  // value change" pattern (state, not refs, so it stays compatible with the React Compiler).
+  const [prevMediaLength, setPrevMediaLength] = React.useState(mediaItems.length);
+  if (mediaItems.length !== prevMediaLength) {
+    setPrevMediaLength(mediaItems.length);
+    if (activeMediaIndex !== null && activeMediaIndex > mediaItems.length - 1) {
+      setActiveMediaIndex(mediaItems.length > 0 ? mediaItems.length - 1 : null);
+    }
+  }
   const touchStartXRef = React.useRef<number | null>(null);
   const touchStartYRef = React.useRef<number | null>(null);
   const touchEndXRef = React.useRef<number | null>(null);
@@ -502,13 +523,6 @@ export default function RelatedContentGallery({
   }, [activeMediaIndex, showNext, showPrevious]);
 
   React.useEffect(() => {
-    if (activeMediaIndex === null) return;
-    if (activeMediaIndex > mediaItems.length - 1) {
-      setActiveMediaIndex(mediaItems.length > 0 ? mediaItems.length - 1 : null);
-    }
-  }, [activeMediaIndex, mediaItems.length]);
-
-  React.useEffect(() => {
     const getColumns = (width: number) => {
       if (width >= 1280) return 3;
       if (width >= 640) return 2;
@@ -557,16 +571,12 @@ export default function RelatedContentGallery({
           <div className="pointer-events-none absolute -top-8 right-8 h-28 w-28 rounded-full bg-white/55 blur-2xl" />
           <div className="pointer-events-none absolute -bottom-4 left-4 h-20 w-20 rounded-full bg-white/40 blur-xl" />
 
-          <div className="relative rounded-[1.5rem] border border-black/10 bg-white/55 px-5 py-5 sm:px-6 sm:py-6 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.45)]">
+          <div className="relative rounded-3xl border border-black/10 bg-white/55 px-5 py-5 sm:px-6 sm:py-6 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.45)]">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-2">
-                <h2 className="text-3xl md:text-4xl font-medium tracking-[-0.04em] text-black">
-                  {title}
-                </h2>
+                <h2 className="heading-2 text-foreground">{title}</h2>
                 {description?.trim() ? (
-                  <p className="text-base md:text-lg text-black/60 leading-relaxed">
-                    {description}
-                  </p>
+                  <p className="text-body">{description}</p>
                 ) : null}
               </div>
 
@@ -575,31 +585,28 @@ export default function RelatedContentGallery({
                   {filters
                     .filter((filter) => counts[filter.id] > 0 || filter.id === "all")
                     .map((filter) => (
-                      <button
+                      <Button
                         key={filter.id}
                         type="button"
+                        size="sm"
+                        variant={
+                          activeFilter === filter.id ? "default" : "outline"
+                        }
                         onClick={() => setActiveFilter(filter.id)}
                         className={cn(
-                          "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap",
-                          activeFilter === filter.id
-                            ? "border-black bg-black text-white"
-                            : "border-black/15 bg-white/80 text-black/75 hover:bg-white"
+                          "px-4",
+                          activeFilter !== filter.id &&
+                            "bg-white/80 text-foreground/75 hover:bg-white"
                         )}
                       >
-                        {filter.id === "video" ? (
-                          <VideoIcon className="h-3.5 w-3.5" />
-                        ) : null}
-                        {filter.id === "image" ? (
-                          <ImageIcon className="h-3.5 w-3.5" />
-                        ) : null}
-                        {filter.id === "text" ? (
-                          <Sparkles className="h-3.5 w-3.5" />
-                        ) : null}
+                        {filter.id === "video" ? <VideoIcon /> : null}
+                        {filter.id === "image" ? <ImageIcon /> : null}
+                        {filter.id === "text" ? <Sparkles /> : null}
                         <span>{filter.label}</span>
-                        <span className="text-[11px] opacity-70">
+                        <span className="text-xs opacity-70">
                           {counts[filter.id]}
                         </span>
-                      </button>
+                      </Button>
                     ))}
                 </div>
               ) : null}
@@ -638,24 +645,22 @@ export default function RelatedContentGallery({
                               viewport={{ once: true, amount: 0.2 }}
                               transition={{ duration: 0.55, delay: index * 0.04 }}
                               className={cn(
-                                "w-full rounded-[1.5rem] border border-black/10 bg-white/80 p-6 sm:p-7 shadow-[0_16px_50px_-35px_rgba(0,0,0,0.55)]",
+                                "w-full rounded-3xl border border-black/10 bg-white/80 p-6 sm:p-7 shadow-[0_16px_50px_-35px_rgba(0,0,0,0.55)]",
                                 isSingleItemView ? "mx-auto max-w-[56rem]" : ""
                               )}
                             >
                               <div className="h-full flex flex-col gap-4 justify-between">
-                                <div className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-black/55">
+                                <div className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-eyebrow">
                                   <Sparkles className="h-3.5 w-3.5" />
                                   {item.data.eyebrow?.trim() || "Context"}
                                 </div>
                                 {item.data.title?.trim() ? (
-                                  <h3 className="text-2xl font-medium tracking-[-0.03em] text-black">
+                                  <h3 className="heading-3 text-foreground">
                                     {item.data.title}
                                   </h3>
                                 ) : null}
                                 {item.data.body?.trim() ? (
-                                  <p className="text-base leading-relaxed text-black/70">
-                                    {item.data.body}
-                                  </p>
+                                  <p className="text-body">{item.data.body}</p>
                                 ) : null}
                               </div>
                             </motion.article>
@@ -756,18 +761,23 @@ export default function RelatedContentGallery({
                                 className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                                 sizes="(min-width: 1280px) 560px, (min-width: 768px) 44vw, 92vw"
                               />
-                              <button
+                              <Button
                                 type="button"
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => {
                                   if (typeof mediaIndex === "number") {
                                     setActiveMediaIndex(mediaIndex);
                                   }
                                 }}
-                                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white transition-colors hover:bg-black/75"
+                                className={cn(
+                                  "absolute right-3 top-3",
+                                  overlayControlClass
+                                )}
                                 aria-label="Open image in fullscreen view"
                               >
-                                <Maximize2 className="h-4 w-4" />
-                              </button>
+                                <Maximize2 />
+                              </Button>
                               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/70 to-transparent" />
                               {(item.data.title?.trim() ||
                                 item.data.caption?.trim() ||
@@ -798,7 +808,7 @@ export default function RelatedContentGallery({
                   ))}
                 </div>
               ) : (
-                <div className="mt-5 rounded-2xl border border-black/10 bg-white/60 px-5 py-4 text-black/65">
+                <div className="mt-5 rounded-3xl border border-black/10 bg-white/60 px-5 py-4 text-foreground/60">
                   No items in this category yet.
                 </div>
               )
@@ -817,18 +827,20 @@ export default function RelatedContentGallery({
             "Fullscreen media"
           }
         >
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon-lg"
             onClick={() => setActiveMediaIndex(null)}
-            className="absolute z-40 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/60 text-white transition-colors hover:bg-black/80"
+            className={cn("absolute z-40", overlayControlClass)}
             style={{
               top: "max(0.75rem, env(safe-area-inset-top))",
               right: "max(0.75rem, env(safe-area-inset-right))",
             }}
             aria-label="Close fullscreen media"
           >
-            <X className="h-5 w-5" />
-          </button>
+            <X className="size-5" />
+          </Button>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -839,25 +851,35 @@ export default function RelatedContentGallery({
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon-lg"
               onClick={showPrevious}
               disabled={activeMediaIndex === 0}
-              className="absolute left-3 top-1/2 z-40 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white transition-colors enabled:hover:bg-black/75 disabled:opacity-35 disabled:cursor-not-allowed"
+              className={cn(
+                "absolute left-3 top-1/2 z-40 -translate-y-1/2",
+                overlayControlClass
+              )}
               aria-label="Previous media"
             >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
+              <ChevronLeft className="size-5" />
+            </Button>
 
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon-lg"
               onClick={showNext}
               disabled={activeMediaIndex === mediaItems.length - 1}
-              className="absolute right-3 top-1/2 z-40 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white transition-colors enabled:hover:bg-black/75 disabled:opacity-35 disabled:cursor-not-allowed"
+              className={cn(
+                "absolute right-3 top-1/2 z-40 -translate-y-1/2",
+                overlayControlClass
+              )}
               aria-label="Next media"
             >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+              <ChevronRight className="size-5" />
+            </Button>
 
             {activeMediaItem.kind === "video" ? (
               <CustomVideoPlayer

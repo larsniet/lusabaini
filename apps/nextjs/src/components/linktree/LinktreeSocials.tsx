@@ -2,16 +2,10 @@
 
 import { motion } from "motion/react";
 import { Mail } from "lucide-react";
-import {
-  SiInstagram,
-  SiLinkedin,
-  SiTiktok,
-  SiYoutube,
-  SiFacebook,
-  SiX,
-} from "react-icons/si";
+import { SiInstagram, SiTiktok, SiYoutube, SiFacebook, SiX } from "react-icons/si";
+import { SiLinkedin } from "@/components/icons/SiLinkedin";
 import type { IconType } from "react-icons";
-import { fadeInUpVariants } from "@/components/motion/fade";
+import { fadeInUpVariants } from "@lusabaini/ui/components/motion/fade";
 
 type SocialLink = {
   icon: string;
@@ -81,7 +75,7 @@ export default function LinktreeSocials({
             variants={itemVariants}
             whileHover={{ scale: 1.15 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center text-slate-800 transition-colors hover:text-slate-950"
+            className="flex items-center justify-center text-foreground/80 transition-colors hover:text-foreground"
           >
             <Icon className="h-7 w-7 sm:h-8 sm:w-8" />
           </motion.a>

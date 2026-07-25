@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import Image from "next/image";
 import { sanityImageLoader } from "@/lib/sanityImageLoader";
-import { fadeInVariants } from "@/components/motion/fade";
+import { fadeInVariants } from "@lusabaini/ui/components/motion/fade";
 
 type LinktreeAvatarProps = {
   image?: {

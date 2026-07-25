@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useAnimationFrame, useMotionValue } from "motion/react";
-import { EASE_OUT } from "@/components/motion/fade";
+import { EASE_OUT } from "@lusabaini/ui/components/motion/fade";
 
 type BrandItem = {
   name?: string;
@@ -28,7 +28,7 @@ const defaultBrands: Array<{
   {
     name: "MILANO",
     prefix: "M ",
-    className: "font-sans tracking-widest bg-gray-200 px-1",
+    className: "font-sans tracking-widest bg-muted px-1",
   },
   { name: "venice.", className: "font-serif lowercase" },
   { name: "ther", className: "font-mono italic" },
@@ -144,7 +144,7 @@ const BrandLogos = ({ introText, logos }: Props) => {
         {brands.map((brand, i) => (
           <div
             key={i}
-            className={`text-2xl font-medium text-black flex items-center gap-2 ${brand.className} shrink-0`}
+            className={`text-2xl font-medium text-foreground flex items-center gap-2 ${brand.className} shrink-0`}
           >
             {brand.prefix && <span className="text-xl">{brand.prefix}</span>}
             {brand.name}
@@ -163,7 +163,7 @@ const BrandLogos = ({ introText, logos }: Props) => {
       variants={fadeInVariants}
     >
       <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        <p className="text-sm text-black/40 font-sans max-w-[140px] leading-tight shrink-0">
+        <p className="text-sm text-foreground/40 font-sans max-w-[140px] leading-tight shrink-0">
           {introText || "Brands I have helped grow on social."}
         </p>
         <div

@@ -7,12 +7,13 @@ import {
   getClientResults,
   resolveClientResultSlug,
 } from "@/lib/queries";
-import TransitionLink from "@/components/motion/TransitionLink";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { Button } from "@lusabaini/ui/components/button";
 import BackButton from "@/components/BackButton";
 import { ArrowRight } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
 import RelatedContentGallery from "@/components/work/RelatedContentGallery";
-import Reveal from "@/components/motion/Reveal";
+import Reveal from "@lusabaini/ui/components/motion/Reveal";
 import JsonLd from "@/components/seo/JsonLd";
 import { buildCanonicalUrl, buildPageMetadata } from "@/lib/seo";
 
@@ -164,7 +165,7 @@ export default async function WorkDetailPage({ params }: Props) {
             {/* Back Button */}
             <Reveal className="absolute top-6 left-6 z-10" delay={0.03} y={12} amount={0.2}>
               <BackButton
-                className="rounded-lg bg-[#f9f3eb]/90 backdrop-blur-sm px-4 py-2 text-sm font-medium text-black transition-opacity hover:opacity-80 cursor-pointer"
+                className="border-transparent bg-background/90 backdrop-blur-sm text-foreground hover:bg-background"
                 fallbackHref="/my-work"
               />
             </Reveal>
@@ -172,13 +173,19 @@ export default async function WorkDetailPage({ params }: Props) {
             {/* Navigation Arrow */}
             {nextResult && (
               <Reveal className="absolute top-6 right-6 z-10" delay={0.08} y={12} amount={0.2}>
-                <TransitionLink
-                  href={`/my-work/${resolveClientResultSlug(nextResult)}`}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm text-black transition-opacity hover:opacity-80"
-                  aria-label="Next project"
+                <Button
+                  asChild
+                  variant="outline"
+                  size="icon-lg"
+                  className="border-transparent bg-white/90 backdrop-blur-sm text-foreground hover:bg-white"
                 >
-                  <ArrowRight className="h-5 w-5" />
-                </TransitionLink>
+                  <TransitionLink
+                    href={`/my-work/${resolveClientResultSlug(nextResult)}`}
+                    aria-label="Next project"
+                  >
+                    <ArrowRight className="size-5" />
+                  </TransitionLink>
+                </Button>
               </Reveal>
             )}
 
@@ -186,13 +193,13 @@ export default async function WorkDetailPage({ params }: Props) {
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7 md:p-12">
               <div className="max-w-3xl">
                 <Reveal delay={0.13} y={18} amount={0.2}>
-                  <h1 className="mb-3 text-[clamp(2rem,8.4vw,3.3rem)] font-medium leading-[0.92] tracking-[-0.04em] text-white md:mb-4 md:text-6xl lg:text-7xl">
+                  <h1 className="mb-3 heading-display text-white md:mb-4">
                     {title}
                   </h1>
                 </Reveal>
                 {description && (
                   <Reveal delay={0.2} y={20} amount={0.2}>
-                    <p className="max-w-2xl text-base leading-[1.3] text-white/90 md:text-xl">
+                    <p className="max-w-2xl text-lg md:text-xl leading-relaxed text-white/90">
                       {description}
                     </p>
                   </Reveal>
@@ -207,14 +214,14 @@ export default async function WorkDetailPage({ params }: Props) {
       <section className="w-full pb-8">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal delay={0.08} y={20} amount={0.2}>
-            <div className="flex flex-wrap items-start justify-between gap-8 md:gap-12 bg-white/35 border border-black/10 rounded-[1rem] px-10 py-6">
+            <div className="flex flex-wrap items-start justify-between gap-8 md:gap-12 bg-white/35 border border-black/10 rounded-3xl px-10 py-6">
             {/* Category */}
               <Reveal delay={0.12} y={16} amount={0.2}>
                 <div>
-                  <div className="text-sm font-medium text-black/60 mb-2">
+                  <div className="text-sm font-medium text-foreground/60 mb-2">
                     Category
                   </div>
-                  <div className="text-2xl font-semibold text-black">
+                  <div className="text-2xl font-medium tracking-[-0.04em] text-foreground">
                     {category || "—"}
                   </div>
                 </div>
@@ -223,13 +230,15 @@ export default async function WorkDetailPage({ params }: Props) {
               {/* Platforms/Socials */}
               <Reveal delay={0.17} y={16} amount={0.2}>
                 <div>
-                  <div className="text-sm font-medium text-black/60 mb-2">
+                  <div className="text-sm font-medium text-foreground/60 mb-2">
                     See the work for this brand
                   </div>
                   {result.socials && result.socials.length > 0 ? (
                     <SocialLinks socials={result.socials} />
                   ) : (
-                    <div className="text-black/40 italic">Link coming soon</div>
+                    <div className="text-foreground/40 italic">
+                      Link coming soon
+                    </div>
                   )}
                 </div>
               </Reveal>
@@ -237,8 +246,12 @@ export default async function WorkDetailPage({ params }: Props) {
               {/* Year */}
               <Reveal delay={0.22} y={16} amount={0.2}>
                 <div>
-                  <div className="text-sm font-medium text-black/60 mb-2">Year</div>
-                  <div className="text-2xl font-semibold text-black">{year}</div>
+                  <div className="text-sm font-medium text-foreground/60 mb-2">
+                    Year
+                  </div>
+                  <div className="text-2xl font-medium tracking-[-0.04em] text-foreground">
+                    {year}
+                  </div>
                 </div>
               </Reveal>
             </div>

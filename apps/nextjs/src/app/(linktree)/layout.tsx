@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { getLinktreePageContent, getThemeSettings } from "@/lib/queries";
 import LinktreeShareButton from "@/components/linktree/LinktreeShareButton";
 import { buildPageMetadata } from "@/lib/seo";
+import { DEFAULT_BRAND_COLOR } from "@lusabaini/ui/lib/brand";
 import "./linktree.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -9,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     getThemeSettings(),
     getLinktreePageContent(),
   ]);
-  const brandColor = theme?.brandColor || "#ff7edb";
+  const brandColor = theme?.brandColor || DEFAULT_BRAND_COLOR;
   const title = content?.seoTitle?.trim() || "Socials and Direct Links";
   const description =
     content?.seoDescription?.trim() ||
@@ -59,7 +60,7 @@ function mixHexWithWhite(hex: string, brandWeight: number) {
 
 export async function generateViewport(): Promise<Viewport> {
   const theme = await getThemeSettings();
-  const brandColor = theme?.brandColor || "#ff7edb";
+  const brandColor = theme?.brandColor || DEFAULT_BRAND_COLOR;
 
   return {
     width: "device-width",
@@ -79,7 +80,7 @@ export default async function LinktreeLayout({
     getThemeSettings(),
   ]);
 
-  const brandColor = theme?.brandColor || "#ff7edb";
+  const brandColor = theme?.brandColor || DEFAULT_BRAND_COLOR;
   const middleColor = mixHexWithWhite(brandColor, 0.4);
   const bottomColor = mixHexWithWhite(brandColor, 0.15);
   const pageGradient = `linear-gradient(180deg, ${brandColor} 0%, ${middleColor} 50%, ${bottomColor} 100%)`;

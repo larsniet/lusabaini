@@ -7,8 +7,8 @@ import {
   readCookieConsentFromDocument,
   subscribeToCookieConsent,
 } from "@/lib/cookie-consent";
-import TransitionLink from "@/components/motion/TransitionLink";
-import { Button } from "@/components/ui/button";
+import TransitionLink from "@lusabaini/ui/components/motion/TransitionLink";
+import { Button } from "@lusabaini/ui/components/button";
 
 type Props = {
   policyHref?: string;
@@ -42,7 +42,7 @@ export default function CookieBanner({ policyHref = "/legal/cookie-policy" }: Pr
       <div className="pointer-events-auto w-full max-w-2xl rounded-3xl border border-black/10 bg-white/80 backdrop-blur-xl shadow-[0_28px_80px_-35px_rgba(0,0,0,0.55)]">
         <div className="flex items-start gap-3 p-4 sm:p-5">
           <div className="w-full">
-            <p className="text-sm sm:text-[15px] leading-relaxed text-black/80">
+            <p className="text-sm sm:text-base leading-relaxed text-foreground/80">
               We only use analytics cookies to understand site usage and improve the
               experience. No advertising or cross-site tracking.
             </p>
@@ -54,7 +54,7 @@ export default function CookieBanner({ policyHref = "/legal/cookie-policy" }: Pr
                   variant="outline"
                   size="sm"
                   onClick={() => handleChoice("rejected")}
-                  className="px-4 text-black/75 hover:text-black"
+                  className="px-4 text-foreground/75 hover:text-foreground"
                 >
                   Only necessary
                 </Button>
@@ -70,7 +70,7 @@ export default function CookieBanner({ policyHref = "/legal/cookie-policy" }: Pr
               <div className="order-2 text-center sm:order-1 sm:text-left">
                 <TransitionLink
                   href={policyHref}
-                  className="text-xs sm:text-sm font-medium text-black/65 underline underline-offset-4 hover:text-black"
+                  className="text-xs sm:text-sm font-medium text-foreground/65 underline underline-offset-4 hover:text-foreground"
                 >
                   Read cookie policy
                 </TransitionLink>
