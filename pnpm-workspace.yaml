@@ -3,9 +3,10 @@ packages:
   - packages/*
 
 allowBuilds:
-  esbuild: set this to true or false
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
+  '@swc/core': true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
 
 # Disable pnpm's default 24h "minimumReleaseAge" supply-chain check.
 # It re-verifies every lockfile entry's publish date on each fresh install,
