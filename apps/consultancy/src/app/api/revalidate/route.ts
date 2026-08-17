@@ -3,18 +3,18 @@ import { revalidateTag } from "next/cache";
 
 const expectedSecret = process.env.REVALIDATE_SECRET;
 
-function unauthorized() {
-  return NextResponse.json(
-    { ok: false, error: "Unauthorized" },
-    { status: 401 }
-  );
-}
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, x-revalidate-secret",
 };
+
+function unauthorized() {
+  return NextResponse.json(
+    { ok: false, error: "Unauthorized" },
+    { status: 401, headers: corsHeaders }
+  );
+}
 
 export async function POST(request: NextRequest) {
   if (!expectedSecret) {

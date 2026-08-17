@@ -3,24 +3,21 @@ import { revalidateTag } from "next/cache";
 
 const expectedSecret = process.env.REVALIDATE_SECRET;
 
-function unauthorized() {
-  return NextResponse.json(
-    { ok: false, error: "Unauthorized" },
-    { status: 401 }
-  );
-}
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, x-revalidate-secret",
 };
 
-export async function POST(request: NextRequest) {
-  console.log("REVALIDATING");
+function unauthorized() {
+  return NextResponse.json(
+    { ok: false, error: "Unauthorized" },
+    { status: 401, headers: corsHeaders }
+  );
+}
 
+export async function POST(request: NextRequest) {
   if (!expectedSecret) {
-    console.log("Server missing REVALIDATE_SECRET");
     return NextResponse.json(
       { ok: false, error: "Server missing REVALIDATE_SECRET" },
       { status: 500, headers: corsHeaders }
@@ -31,13 +28,9 @@ export async function POST(request: NextRequest) {
     request.headers.get("x-revalidate-secret") ??
     new URL(request.url).searchParams.get("secret");
 
-  console.log("Provided secret:", provided, "Expected secret:", expectedSecret);
   if (provided !== expectedSecret) {
-    console.log("Provided secret does not match expected secret");
     return unauthorized();
   }
-
-  console.log("Provided secret matches expected secret, revalidating...");
 
   // Invalidate all relevant cached tags
   const tagsToRevalidate = [
