@@ -1,12 +1,5 @@
-import React, {useMemo, useState} from 'react'
+import React, {useState} from 'react'
 import {Button, Card, Flex, Stack, Text} from '@sanity/ui'
-
-type DeployTarget = {
-  name: string
-  url?: string
-}
-
-type ConfiguredTarget = DeployTarget & {url: string}
 
 type DeployResult = {
   name: string
@@ -14,73 +7,41 @@ type DeployResult = {
   detail: string
 }
 
-type Status = 'idle' | 'loading' | 'done'
-
-type DeployContentButtonProps = {
-  /**
-   * Optional override for the deploy targets.
-   * Defaults to the portfolio and consultancy revalidate endpoints.
-   */
-  targets?: DeployTarget[]
-  /**
-   * Optional payload to send. Defaults to a small metadata object.
-   */
-  payload?: Record<string, unknown>
-}
-
-const DEFAULT_TARGETS: DeployTarget[] = [
+const TARGETS = [
   {name: 'Portfolio', url: process.env.SANITY_STUDIO_DEPLOY_PORTFOLIO_URL},
   {name: 'Consultancy', url: process.env.SANITY_STUDIO_DEPLOY_CONSULTANCY_URL},
 ]
 
-async function deploy(
-  target: ConfiguredTarget,
-  payload: Record<string, unknown>,
-): Promise<DeployResult> {
+const configured = TARGETS.filter((t): t is {name: string; url: string} => Boolean(t.url))
+const unconfigured = TARGETS.filter((t) => !t.url).map((t) => t.name)
+
+async function deploy(target: {name: string; url: string}): Promise<DeployResult> {
   try {
-    const response = await fetch(target.url, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload),
-    })
+    // No body: the endpoint only reads the secret. Keeping the request
+    // header-free also avoids a CORS preflight.
+    const response = await fetch(target.url, {method: 'POST'})
 
     if (!response.ok) {
       const text = await response.text()
       throw new Error(text.trim() || `Request failed with status ${response.status}`)
     }
 
-    return {name: target.name, ok: true, detail: 'Content deployed'}
+    return {name: target.name, ok: true, detail: 'Deployed — live after the next page load'}
   } catch (error) {
     const detail = error instanceof Error ? error.message : 'Unknown error'
     return {name: target.name, ok: false, detail: detail.slice(0, 200)}
   }
 }
 
-const DeployContentButton = ({targets = DEFAULT_TARGETS, payload}: DeployContentButtonProps) => {
-  const configured = useMemo(
-    () => targets.filter((target): target is ConfiguredTarget => Boolean(target.url)),
-    [targets],
-  )
-  const unconfigured = useMemo(
-    () => targets.filter((target) => !target.url).map((target) => target.name),
-    [targets],
-  )
-
-  const [status, setStatus] = useState<Status>('idle')
+const DeployContentButton = () => {
+  const [isDeploying, setIsDeploying] = useState(false)
   const [results, setResults] = useState<DeployResult[]>([])
 
   const handleDeploy = async () => {
-    setStatus('loading')
+    setIsDeploying(true)
     setResults([])
-
-    const settled = await Promise.all(
-      configured.map((target) =>
-        deploy(target, payload ?? {source: 'sanity-studio', triggeredAt: new Date().toISOString()}),
-      ),
-    )
-
-    setResults(settled)
-    setStatus('done')
+    setResults(await Promise.all(configured.map(deploy)))
+    setIsDeploying(false)
   }
 
   return (
@@ -91,15 +52,15 @@ const DeployContentButton = ({targets = DEFAULT_TARGETS, payload}: DeployContent
             Deploy content
           </Text>
           <Text size={1} muted>
-            Refreshes the cached content on both sites so your latest edits go live. Publish your
-            changes first, then deploy.
+            Publish your changes first, then deploy. The sites rebuild on the next visit, so if you
+            still see old content, wait a few seconds and refresh once more.
           </Text>
         </Stack>
 
         {unconfigured.length > 0 && (
           <Text size={1} style={{color: 'var(--card-caution-fg-color, #8a6d00)'}}>
-            Not configured: {unconfigured.join(', ')}. Set the matching
-            SANITY_STUDIO_DEPLOY_*_URL variable to enable.
+            Not configured: {unconfigured.join(', ')}. Set the matching SANITY_STUDIO_DEPLOY_*_URL
+            variable to enable.
           </Text>
         )}
 
@@ -131,10 +92,10 @@ const DeployContentButton = ({targets = DEFAULT_TARGETS, payload}: DeployContent
         )}
 
         <Button
-          text={status === 'loading' ? 'Deploying…' : 'Deploy content'}
+          text={isDeploying ? 'Deploying…' : 'Deploy content'}
           tone="primary"
-          loading={status === 'loading'}
-          disabled={configured.length === 0 || status === 'loading'}
+          loading={isDeploying}
+          disabled={configured.length === 0 || isDeploying}
           onClick={handleDeploy}
         />
       </Stack>

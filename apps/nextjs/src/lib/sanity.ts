@@ -9,8 +9,10 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion: "2025-01-01",
-  useCdn:
-    process.env.NODE_ENV === "production" && !process.env.SANITY_READ_TOKEN,
+  // The API CDN can still serve a just-replaced document for a few seconds after
+  // publish. These queries only run on a cache miss, so reading straight from the
+  // API costs little and stops a revalidation from re-caching pre-publish content.
+  useCdn: false,
   token: process.env.SANITY_READ_TOKEN,
   perspective: process.env.SANITY_READ_TOKEN ? "previewDrafts" : "published",
 });

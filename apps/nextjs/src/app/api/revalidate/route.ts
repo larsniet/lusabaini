@@ -51,10 +51,7 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(
-    {
-      ok: true,
-      revalidated: tagsToRevalidate,
-    },
+    { ok: true, revalidated: tagsToRevalidate },
     { headers: corsHeaders }
   );
 }
@@ -62,18 +59,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   // Allow GET for simple webhook testing (e.g., curl in a browser), still protected by secret.
   const response = await POST(request);
-  response.headers.set(
-    "Access-Control-Allow-Origin",
-    corsHeaders["Access-Control-Allow-Origin"]
-  );
-  response.headers.set(
-    "Access-Control-Allow-Methods",
-    corsHeaders["Access-Control-Allow-Methods"]
-  );
-  response.headers.set(
-    "Access-Control-Allow-Headers",
-    corsHeaders["Access-Control-Allow-Headers"]
-  );
+  Object.entries(corsHeaders).forEach(([k, v]) => response.headers.set(k, v));
   return response;
 }
 
