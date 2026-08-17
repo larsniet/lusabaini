@@ -31,9 +31,22 @@ The GitHub workflow deploys Studio automatically on pushes to `main` when these 
 Optional:
 
 - `SANITY_STUDIO_APP_ID`
-- `SANITY_STUDIO_WEBHOOK_URL`
+- `SANITY_STUDIO_DEPLOY_PORTFOLIO_URL`
+- `SANITY_STUDIO_DEPLOY_CONSULTANCY_URL`
 
 `apps/studio-sanity/sanity.cli.ts` reads these values and deploys to the configured host.
+
+## Deploy content
+
+Both workspaces expose a **Deploy content** tool. It sends a POST to each app's
+`/api/revalidate` endpoint, which purges the cached Sanity content tags so published
+edits appear without a rebuild. Targets come from `SANITY_STUDIO_DEPLOY_PORTFOLIO_URL`
+and `SANITY_STUDIO_DEPLOY_CONSULTANCY_URL`; each URL must carry that app's
+`REVALIDATE_SECRET`. A target with no URL set is shown as unconfigured and skipped.
+
+Because `SANITY_STUDIO_*` values are inlined into the Studio's client bundle, these
+URLs and their secrets are readable by anyone who can open the Studio. Treat the
+revalidate endpoints as publicly triggerable.
 
 ## Notes
 

@@ -4,7 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {colorInput} from '@sanity/color-input'
 import {markdownSchema} from 'sanity-plugin-markdown'
 import {type ListItemBuilder, structureTool, type StructureBuilder} from 'sanity/structure'
-import TriggerWebhookButton from './components/TriggerWebhookButton'
+import DeployContentButton from './components/DeployContentButton'
 import {schemaTypes} from './schemaTypes'
 import {
   consultancySchemaTypes,
@@ -35,8 +35,14 @@ const portfolioSingletonTypes = new Set([
   'linktreePage',
 ])
 
-function WebhookTriggerTool() {
-  return createElement(TriggerWebhookButton)
+function DeployContentTool() {
+  return createElement(DeployContentButton)
+}
+
+const deployContentTool = {
+  name: 'deploy-content',
+  title: 'Deploy content',
+  component: DeployContentTool as any,
 }
 
 function portfolioStructure(S: StructureBuilder) {
@@ -239,14 +245,7 @@ export default defineConfig([
       structureTool({structure: portfolioStructure}),
       visionTool(),
     ],
-    tools: (prev) => [
-      ...prev,
-      {
-        name: 'webhook-trigger',
-        title: 'Webhook Trigger',
-        component: WebhookTriggerTool as any,
-      },
-    ],
+    tools: (prev) => [...prev, deployContentTool],
     schema: {types: schemaTypes},
     document: singletonDocumentActions(portfolioSingletonTypes),
   },
@@ -257,6 +256,7 @@ export default defineConfig([
     projectId,
     dataset: consultancyDataset,
     plugins: [colorInput(), structureTool({structure: consultancyStructure}), visionTool()],
+    tools: (prev) => [...prev, deployContentTool],
     schema: {types: consultancySchemaTypes},
     document: singletonDocumentActions(consultancySingletonTypes),
   },
